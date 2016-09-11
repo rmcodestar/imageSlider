@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no">
+	<title>tabUI</title>
+	<link rel="stylesheet" href="tabUI.css">
+	<script src="http://underscorejs.org/underscore-min.js" type="text/javascript"></script>
+</head>
+
+<body>
+<div id="wrapper">
+	<div class="mainView" >
+		<header class="mainHeader" ><img src="https://avatars1.githubusercontent.com/u/1456761?v=3&s=140" width="80" >
+			<div class="userId" ><span > </span><span >nigayo</span><span > </span>
+			</div>
+			<div class="userMessage" ><span > </span><span >안녕하세요 nigayo입니다.</span><span > </span>
+			</div>
+			<ul class="userSNSInfo" >
+				<li ><span >review : </span><span class="count" >10</span><span > | </span>
+				</li>
+				<li ><span >follower : </span><span class="count" ><span >12</span><span > </span></span><span > | </span>
+				</li>
+				<li ><span >following : </span><span class="count" ><span >30</span><span > </span></span><span > </span>
+				</li>
+			</ul>
+		</header>
+		<nav id="tabNavigator">
+			<div class="tab selectedTab" id="position" ><span > </span><span >aboutMe</span><span > </span>
+			</div>
+			<div class="tab" id="friend" ><span > </span><span >friend</span><span > </span>
+			</div>
+			<div class="tab" id="theme" ><span > </span><span >lorem</span><span > </span>
+			</div>
+			<div class="tab" id="news" ><span > </span><span >repository</span><span > </span>
+			</div>
+		</nav>
+		<section id="my_position" class="eleDisplayShow" >
+			<ul >
+				<li >
+					<div class="myName" >blah blah !</div>
+					<div class="myDesc" >Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eaque recusandae hic obcaecati maxime officiis commodi! Cumque maiores maxime quam quidem deleniti, aspernatur iste, minima sit laboriosam laudantium saepe dignissimos provident.</div>
+				</li>
+			</ul>
+		</section>
+		<section id="my_friend"> </section>
+		<section id="my_theme" > </section>
+		<section id="my_news"> </section>
+	</div>
+</div>
+<script>
+	var myTab = {
+		self : null,
+		items : null,
+		selector : null,
+		init : function (selector) {
+			items = document.querySelector(selector).querySelectorAll("div.tab");
+			self = this;
+			self.selector = selector;
+			self.registerEvents();
+		},
+		registerEvents : function () {
+			document.querySelector(self.selector).addEventListener("click", self.onClickItem);
+		},
+		unCheckItem : function (items) {
+			for (var i = 0; i < items.length; i++) {
+				items[i].classList.remove("selectedTab");
+				document.querySelector("#my_"+items[i].id).classList.remove("eleDisplayShow");
+			}
+		},
+		checkItem : function (item) {
+			item.classList.add("selectedTab");
+
+		},
+		onClickItem: function (event) {
+			self.unCheckItem(items);
+			var target = (event.target.classList.contains("tab")) ? event.target : event.target.parentNode;
+			self.checkItem(target);
+			document.querySelector("#my_" + target.id).classList.add("eleDisplayShow");
+			self.getContent("http://jsonplaceholder.typicode.com/posts/" + self.getIndex(target), "#my_" + target.id);
+		},
+		getContent: function (url, selection) {
+			var oReq = new XMLHttpRequest(); //시간값과 함께 캐쉬하면 좋음(local storage 활용)
+			oReq.addEventListener("load", function (e) {
+				var htData = JSON.parse(oReq.responseText);
+				self.makeContent(selection, htData.title, htData.body);
+			});
+			oReq.open("GET", url);
+			oReq.send();
+		},
+		makeContent: function (selection, title, body) {
+			var myNode = document.querySelector(selection);
+			while (myNode.firstChild) {
+				myNode.removeChild(myNode.firstChild);
+			}
+			var newList = document.createElement("ul");
+			newList.innerHTML = "<li><div class='myName'>" + title + "</div><div class='myDesc'>" + body + "</div></li>";
+			myNode.appendChild(newList);
+		},
+		getIndex: function (item) {
+			for (var i = 0; i < items.length; i++) {
+				if (items[i].id == item.id) {
+					return i + 1;
+				}
+			}
+			return -1;
+		}
+	};
+
+	document.addEventListener("DOMContentLoaded", function(event){
+		myTab.init("#tabNavigator");
+	});
+
+</script>
+</body>
+</html>
