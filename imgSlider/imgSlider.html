@@ -3,18 +3,13 @@
 <head>
 	<meta charset="UTF-8">
 	<title>DEMO</title>
-	<link rel="StyleSheet" href="imgSlider.css" type="text/css">
-	<script src="imageSlider.js"></script>
+	<link rel="StyleSheet" href="../css/imgSlider.css" type="text/css">
+	<script src="../js/imageSlider.js"></script>
 	<script src="http://code.jquery.com/jquery-latest.js"></script>
 </head>
 <body>
 <body>
-<div style="height:20px;">
-</div>
-<div style="line-height:225%; text-align:left; border-bottom:1px solid white; font-size:small"><b>&nbsp;&nbsp;[plugin]
-	image slider</b></div>
-<br>
-<div style="text-align:left; width:680px; height:30px;"><b>[EXAMPLE] 01</b><br></div>
+<h1>IMAGE SLIDER</h1>
 <div id="imaSlider">
 	<div class="imgSlider_btn before">
 		<img src="../img/btn_before.png">
@@ -30,14 +25,10 @@
 	<div class="imgSlider_btn after">
 		<img src="../img/btn_next.png">
 	</div>
-
 	<div class="imgslider_pageGuider"></div>
-
 </div>
 <script>
-
 	document.addEventListener("DOMContentLoaded", function () {
-		//customising
 		var imageSlider = new ImageSlider();
 		imageSlider.init({
 			selector: "#imaSlider",
@@ -45,7 +36,6 @@
 			"pageGuideType": "image",
 			"animation": false
 		});
-
 	});
 </script>
 </body>
