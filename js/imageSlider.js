@@ -66,8 +66,7 @@ function ImageSlider (option) {
         }
     };
     this.setPageText = function () {
-        //TODO jquery --> js
-        jQuery(".imgslider_pageGuider", this.selector).text(this.currentPage + " / " + this.pageSize);
+		this.selector.querySelector(".imgslider_pageGuider").innerHTML = this.currentPage + " / " + this.pageSize;
     };
     this.showPage = function (selectedPage) {
         if (selectedPage > 0 && selectedPage <= this.pageSize) {

@@ -5,7 +5,6 @@
 	<title>DEMO</title>
 	<link rel="StyleSheet" href="../css/imgSlider.css" type="text/css">
 	<script src="../js/imageSlider.js"></script>
-	<script src="http://code.jquery.com/jquery-latest.js"></script>
 </head>
 <body>
 <body>
@@ -28,13 +27,13 @@
 	<div class="imgslider_pageGuider"></div>
 </div>
 <script>
+	var imageSlider = null;
 	document.addEventListener("DOMContentLoaded", function () {
-		var imageSlider = new ImageSlider();
+		imageSlider = new ImageSlider();
 		imageSlider.init({
 			selector: "#imaSlider",
-
-			"pageGuideType": "image",
-			"animation": false
+			"pageGuideType": "text",
+			"animation": true
 		});
 	});
 </script>
