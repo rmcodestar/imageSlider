@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>SAMPLE03</title>
+	<link rel="StyleSheet" href="../css/imgSlider.css" type="text/css">
+	<script>
+	function ImageSlider (option) {
+		this.selector = null;
+		this.currentPage = 1;
+		this.pageSize = 0;
+	}
+
+	ImageSlider.prototype.init = function(option) {
+		this.selector = document.querySelector(option.selector);
+		if(!this.selector) {
+			return;
+		}
+
+		this.selector.style.width = option.width || "650px";
+		this.selector.style.height = option.height || "500px";
+		this.selector.querySelector(".imgSlider_btn.before").style.width = option.buttonWidth || "30px";
+		this.selector.querySelector(".imgSlider_btn.before").style.height = option.buttonHeight || "30px";
+		this.selector.querySelector(".imgSlider_btn.after").style.width = option.buttonWidth || "30px";
+		this.selector.querySelector(".imgSlider_btn.after").style.height = option.buttonHeight || "30px";
+		this.currentPage = option.currentPage || 1;
+		this.pageSize = this.selector.querySelectorAll(".imgSlider_imgList ul li").length;
+
+		if(!this.selector.classList.contains("imgSlider")){
+			this.selector.classList.add("imgSlider");
+		}
+
+		this._showPage(1);
+
+		this.selector.querySelector(".imgSlider_btn.before").addEventListener("click", this._onClickBeforeButton.bind(this));
+		this.selector.querySelector(".imgSlider_btn.after").addEventListener("click", this._onClickNextButton.bind(this));
+	};
+	ImageSlider.prototype._onClickBeforeButton = function () {
+		if (this.pageSize > 0) {
+			if (--this.currentPage <= 0) {
+				this.currentPage = this.pageSize;
+			}
+			this._showPage(this.currentPage);
+		}
+	};
+	ImageSlider.prototype._onClickNextButton = function () {
+		if (this.pageSize > 0) {
+			if (++this.currentPage > this.pageSize) {
+				this.currentPage = 1;
+			}
+			this._showPage(this.currentPage);
+		}
+	};
+	ImageSlider.prototype._showPage = function (selectedPage) {
+		if (selectedPage > 0 && selectedPage <= this.pageSize) {
+			var betofePage = this.selector.querySelector(".imgSlider_imgList > ul > li.active");
+			if (betofePage) {
+				betofePage.classList.remove("active");
+			}
+			this.selector.querySelector(".imgSlider_imgList > ul > li:nth-of-type(" + selectedPage + ")").classList.add("active");
+		}
+	};
+
+	ImageSlider.prototype.initPageGuider = function (handlerPageGuide) {
+		handlerPageGuide.init(this.selector, this.pageSize);
+		this.selector.querySelector(".imgSlider_btn.before").
+		this.selector.querySelector(".imgSlider_btn.before").addEventListener("click", handlerPageGuide.guide.bind(this));
+		this.selector.querySelector(".imgSlider_btn.after").addEventListener("click", handlerPageGuide.guide.bind(this));
+    };
+
+	var handlerTextPageGuide = {
+		init : function ($selector, pageSize) {
+			$selector.querySelector(".imgslider_pageGuider").innerHTML = 1 + " / " + pageSize;
+			$selector.querySelector(".imgslider_pageGuider").classList.add("text");
+		}
+		,guide : function () {
+			this.selector.querySelector(".imgslider_pageGuider").innerHTML = this.currentPage + " / " + this.pageSize;
+		}
+	};
+
+	var handlerImagePageGuide = {
+		init : function ($selector, pageSize) {
+			var guider = $selector.querySelector(".imgslider_pageGuider");
+			for (var i = 0; i < pageSize; i++) {
+				var newItem = document.createElement("div");
+				newItem.classList.add("dot");
+				if(i == 0) {
+					newItem.classList.add("orange");
+				}
+				guider.appendChild(newItem);
+			}
+			$selector.querySelector(".imgslider_pageGuider").classList.add("image");
+		}
+		,guide : function (){
+			this.selector.querySelector(".imgslider_pageGuider > div.dot.orange").classList.remove("orange");
+			this.selector.querySelector(".imgslider_pageGuider > div.dot:nth-of-type(" + this.currentPage + ")").classList.add("orange");
+		}
+    };
+
+	</script>
+</head>
+<body>
+<h1>IMAGE SLIDER(다형성)</h1>
+<div id="imgSlider">
+	<div class="imgSlider_btn before">
+		<img src="../img/btn_before.png">
+	</div>
+	<div class="imgSlider_imgList">
+		<ul>
+			<li><img src="../img/01.PNG"></li>
+			<li><img src="../img/02.PNG"></li>
+			<li><img src="../img/03.PNG"></li>
+			<li><img src="../img/04.PNG"></li>
+		</ul>
+	</div>
+	<div class="imgSlider_btn after">
+		<img src="../img/btn_next.png">
+	</div>
+	<div class="imgslider_pageGuider"></div>
+</div>
+<script>
+	var imageSlider = null;
+	document.addEventListener("DOMContentLoaded", function () {
+		imageSlider = new ImageSlider();
+		imageSlider.init({
+			selector: "#imgSlider"
+		});
+		imageSlider.initPageGuider(handlerImagePageGuide);
+	});
+</script>
+</body>
+</html>
