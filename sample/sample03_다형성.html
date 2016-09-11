@@ -63,7 +63,6 @@
 
 	ImageSlider.prototype.initPageGuider = function (handlerPageGuide) {
 		handlerPageGuide.init(this.selector, this.pageSize);
-		this.selector.querySelector(".imgSlider_btn.before").
 		this.selector.querySelector(".imgSlider_btn.before").addEventListener("click", handlerPageGuide.guide.bind(this));
 		this.selector.querySelector(".imgSlider_btn.after").addEventListener("click", handlerPageGuide.guide.bind(this));
     };
