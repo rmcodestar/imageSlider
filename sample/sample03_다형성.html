@@ -117,14 +117,36 @@
 	</div>
 	<div class="imgslider_pageGuider"></div>
 </div>
+<div id="imgSlider2">
+	<div class="imgSlider_btn before">
+		<img src="../img/btn_before.png">
+	</div>
+	<div class="imgSlider_imgList">
+		<ul>
+			<li><img src="../img/01.PNG"></li>
+			<li><img src="../img/02.PNG"></li>
+			<li><img src="../img/03.PNG"></li>
+			<li><img src="../img/04.PNG"></li>
+		</ul>
+	</div>
+	<div class="imgSlider_btn after">
+		<img src="../img/btn_next.png">
+	</div>
+	<div class="imgslider_pageGuider"></div>
+</div>
 <script>
-	var imageSlider = null;
 	document.addEventListener("DOMContentLoaded", function () {
-		imageSlider = new ImageSlider();
+		var imageSlider = new ImageSlider();
 		imageSlider.init({
 			selector: "#imgSlider"
 		});
-		imageSlider.initPageGuider(handlerImagePageGuide);
+		imageSlider.initPageGuider(handlerTextPageGuide);
+
+		var imageSlider2 = new ImageSlider();
+		imageSlider2.init({
+			selector: "#imgSlider2"
+		});
+		imageSlider2.initPageGuider(handlerImagePageGuide);
 	});
 </script>
 </body>
